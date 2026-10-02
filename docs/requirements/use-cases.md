@@ -1834,6 +1834,79 @@ Supervised teams shall be organized by section names.
 **Assumptions:**
 **Open Issues:**
 
+### **UC-INS-remind-non-submitters: The instructor reminds students who have not submitted**
+
+**UC ID and Name:** UC-INS-remind-non-submitters: Remind students who have not submitted
+**Created By:** Felipe Robledo
+**Date Created:** 02/Oct/26
+**Primary Actor:** instructor
+**Secondary Actors:** student
+**Trigger:** The instructor indicates that she wants to view students with missing submissions.
+**Description:** The instructor wants to see which students in her course section have not submitted a currently due weekly activity report or peer evaluation and send reminders only to those students.
+
+**Preconditions:**
+- PRE-1. The instructor is logged into the system.
+- PRE-2. The instructor is assigned to the selected course section.
+
+**Postconditions:**
+- POST-1. The system displays students who currently have missing submissions.
+- POST-2. Reminder emails are sent only to selected students who are missing a currently due submission.
+
+**Main Success Scenario:**
+1. The instructor indicates that she wants to view students with missing submissions.
+2. The system identifies the weekly activity report, peer evaluation, or both that are currently due.
+3. The system checks each student in the instructor's course section.
+4. The system determines whether each student has submitted each currently due artifact.
+5. The system displays the students who are missing at least one currently due artifact.
+6. The instructor selects one or more students.
+7. The instructor indicates that reminders should be sent.
+8. The system sends each selected student a reminder identifying the submission that is missing.
+9. The system informs the instructor that the reminder process is complete.
+10. Use case ends.
+
+**Extensions:**
+- **3a. The student is not assigned to a team:**
+  - 3a1. The system excludes the student because the student is not eligible to submit under BR-team-assignment-required.
+  - 3a2. Processing continues with the remaining students.
+- **3b. The submission window for an artifact has closed:**
+  - 3b1. The system does not list the student as a non-submitter for that artifact.
+  - 3b2. The system does not send a reminder for that artifact because the student is no longer eligible to submit it.
+- **3c. The week is not one of the course section's active weeks:**
+  - 3c1. The system does not treat the peer evaluation as currently due under BR-active-weeks.
+  - 3c2. The system does not list the student as a non-submitter for that peer evaluation.
+  - 3c3. Processing continues with any other currently due artifact.
+- **3d. The student is deactivated:**
+  - 3d1. The system excludes the student from the non-submitter list.
+  - 3d2. The system does not send a reminder to the student.
+  - 3d3. Processing continues with the remaining students.
+- **4a. The student previously submitted but the submission was deleted:**
+  - 4a1. The system uses the student's current submission state.
+  - 4a2. If no current submission exists, the student is treated as a non-submitter.
+- **5a. No students have missing submissions:**
+  - 5a1. The system informs the instructor that no students currently have missing submissions.
+  - 5a2. Use case ends.
+- **7a. The instructor attempts to send another reminder to the same student during the same day:**
+  - 7a1. The system handles the request according to BR-submission-reminder-frequency.
+- **8a. The mail server rejects a student's address or another email delivery error occurs:**
+  - 8a1. The system records the failed reminder attempt.
+  - 8a2. The system continues sending reminders to the remaining selected students.
+  - 8a3. After processing finishes, the system shows the instructor which reminders were sent successfully and which failed.
+
+**Priority:** High
+**Frequency of Use:** Approximately 1-2 times per instructor per week.
+**Business Rules:** BR-section-scoped-access, BR-team-assignment-required, BR-active-weeks, BR-evaluation-submission-window, BR-submission-reminder-frequency
+
+**Associated Information:**
+- A weekly activity report and a peer evaluation are checked separately.
+- A weekly activity report is currently due for the section's current active week.
+- A peer evaluation is currently due only when its submission window is open under BR-evaluation-submission-window.
+- A student who submitted one required artifact but not the other is listed only for the missing artifact.
+- The instructor sees submission status only for students in course sections assigned to that instructor.
+- A failed email does not stop reminders from being sent to other students.
+
+**Assumptions:**
+**Open Issues:**
+
 ## **Account**
 
 ### **UC-ACC-setup-student-account: The student sets up a student account**
